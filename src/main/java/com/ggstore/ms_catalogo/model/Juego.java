@@ -2,6 +2,7 @@ package com.ggstore.ms_catalogo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -19,7 +20,7 @@ public class Juego {
     private String descripcion;
 
     @Column(nullable = false)
-    private Double precio;
+    private BigDecimal precio;
 
     private Integer stock;
 
@@ -28,17 +29,18 @@ public class Juego {
     @Column(name = "imagen_url")
     private String imagenUrl;
 
-    @Column(name = "descuento_porcentaje")
-    private Integer descuentoPorcentaje = 0;
+    @Column(name = "descuento_porcentaje", precision = 5, scale = 2)
+    private BigDecimal descuentoPorcentaje = BigDecimal.ZERO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
     @Transient
-    public Double getPrecioFinal() {
-        if (descuentoPorcentaje != null && descuentoPorcentaje > 0) {
-            return precio * (1 - descuentoPorcentaje / 100.0);
+    public BigDecimal getPrecioFinal() {
+        if (descuentoPorcentaje != null && descuentoPorcentaje.compareTo(BigDecimal.ZERO) > 0) {
+            return precio.multiply(BigDecimal.ONE.subtract(
+                    descuentoPorcentaje.divide(BigDecimal.valueOf(100))));
         }
         return precio;
     }
