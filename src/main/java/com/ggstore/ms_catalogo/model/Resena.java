@@ -2,7 +2,7 @@ package com.ggstore.ms_catalogo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
@@ -21,11 +21,11 @@ public class Resena {
     @Column(name = "usuario_id", nullable = false)
     private UUID usuarioId;
 
-    @Column(nullable = false)
-    private Integer calificacion;
+    @Column(name = "puntuacion", nullable = false)
+    private Integer puntuacion;
 
     private String comentario;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private OffsetDateTime createdAt;
 }
