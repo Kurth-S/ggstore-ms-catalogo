@@ -31,7 +31,7 @@ public class ResenaService {
     public ResenaDTO crear(ResenaDTO dto) {
         Resena resena = new Resena();
         resena.setUsuarioId(dto.getUsuarioId());
-        resena.setCalificacion(dto.getCalificacion());
+        resena.setPuntuacion(dto.getPuntuacion());
         resena.setComentario(dto.getComentario());
         juegoRepository.findById(dto.getJuegoId()).ifPresent(resena::setJuego);
         return toDTO(resenaRepository.save(resena));
@@ -47,7 +47,7 @@ public class ResenaService {
         dto.setId(resena.getId());
         dto.setJuegoId(resena.getJuego().getId());
         dto.setUsuarioId(resena.getUsuarioId());
-        dto.setCalificacion(resena.getCalificacion());
+        dto.setPuntuacion(resena.getPuntuacion());
         dto.setComentario(resena.getComentario());
         dto.setCreatedAt(resena.getCreatedAt());
         return dto;
